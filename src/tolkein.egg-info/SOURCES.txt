@@ -1,0 +1,14 @@
+MANIFEST.in
+README.md
+setup.py
+src/tolkein/__init__.py
+src/tolkein/_version.py
+src/tolkein/tolkein.py
+src/tolkein.egg-info/PKG-INFO
+src/tolkein.egg-info/SOURCES.txt
+src/tolkein.egg-info/dependency_links.txt
+src/tolkein.egg-info/requires.txt
+src/tolkein.egg-info/top_level.txt
+src/tolkein/lib/__init__.py
+src/tolkein/lib/file_io.py
+src/tolkein/lib/misc.py
