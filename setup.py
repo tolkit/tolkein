@@ -96,7 +96,9 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['pyyaml', 'ujson>=3.0.0'],  # Optional
+    install_requires=['docopt>=0.6.2',
+                      'pyyaml',
+                      'ujson>=3.0.0'],  # Optional
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -107,8 +109,7 @@ setup(
     # Similar to `install_requires` above, these must be valid existing
     # projects.
     extras_require={  # Optional
-        'dev': ['docopt>=0.6.2',
-                'pycodestyle>=2.6.0',
+        'dev': ['pycodestyle>=2.6.0',
                 'pydocstyle>=5.0.2',
                 'pylint>=2.5.3',
                 ],
