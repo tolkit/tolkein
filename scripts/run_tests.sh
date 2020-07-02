@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-git stash -k -u
+if [ -z "$1" ]; then
+  git stash -k -u
+fi
 
 # lint code in lib directory
 echo "pylint --rcfile=.pylintrc src/tolkein -f parseable -r n" &&
@@ -26,4 +28,6 @@ pydocstyle src/tolkein &&
 echo "py.test --cov-config .coveragerc --doctest-modules --cov=src/tolkein --cov-report term-missing" &&
 py.test --cov-config .coveragerc --doctest-modules --cov=src/tolkein --cov-report term-missing
 
-git stash pop
+if [ -z "$1" ]; then
+  git stash pop
+fi
