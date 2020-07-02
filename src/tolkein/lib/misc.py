@@ -12,30 +12,34 @@ Further tests are implemented in a separate file using pytest
 import math
 
 
-def bin_hr_simple(value):
+def bin_below_readable(value, start_digits=None):
     r"""
     Place values in human readable bins.
 
-    >>> bin_hr_simple(123456789)
+    >>> bin_below_readable(123456789)
     '200M'
 
-    >>> bin_hr_simple(56789012234)
+    >>> bin_below_readable(56789012234)
     '100G'
 
-    >>> bin_hr_simple(567.89)
+    >>> bin_below_readable(567.89)
     '1k'
 
-    >>> bin_hr_simple(21)
+    >>> bin_below_readable(21)
     '30'
 
-    >>> bin_hr_simple(0.6)
-    '1'
+    >>> bin_below_readable(0.6, [0.15, 0.3])
+    '1.5'
 
-    >>> bin_hr_simple(-1234567)
+    >>> bin_below_readable(-1234567)
     '-2M'
     """
+    if start_digits is None:
+        start_digits = [1, 2, 3, 5, 10]
+    else:
+        start_digits.append(start_digits[0]*10)
     thousands = ['', 'k', 'M', 'G']
-    start_digits = [1, 2, 3, 5, 10]
+    start_digits.append(10)
     # Check sign
     sign = 1
     if value < 0:
