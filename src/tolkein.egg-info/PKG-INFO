@@ -1,13 +1,15 @@
 Metadata-Version: 2.1
 Name: tolkein
-Version: 0.0.13
+Version: 0.0.1
 Summary: Tree of Life Kit of Evolutionary Informatics Niceties
 Home-page: https://github.com/rjchallis/tolkein
 Author: Team301
 License: UNKNOWN
 Project-URL: Bug Reports, https://github.com/rjchallis/tolkein/issues
 Project-URL: Source, https://github.com/rjchallis/tolkein
-Description: # Tree of Life Kit of Evolutionary Informatics Niceties
+Description: [![Build Status](https://travis-ci.org/genomehubs/tolkein.svg?branch=master)](https://travis-ci.org/genomehubs/tolkein) [![Coverage Status](https://coveralls.io/repos/github/genomehubs/tolkein/badge.svg?branch=master)](https://coveralls.io/github/genomehubs/tolkein?branch=master)
+        
+        # Tree of Life Kit of Evolutionary Informatics Niceties
         
 Keywords: bioinformatics
 Platform: UNKNOWN
