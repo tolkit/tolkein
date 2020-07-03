@@ -1,6 +1,6 @@
-========
-Tolkein
-========
+==========================================
+Tree of Life Kit of Evolutionary Novelties
+==========================================
 
 .. start-badges
 
@@ -39,9 +39,6 @@ Tolkein
 
 .. end-badges
 
-Tree of Life Kit of Evolutionary Novelties
-
-* Free software: MIT License
 
 Installation
 ============
