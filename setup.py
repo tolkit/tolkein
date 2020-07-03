@@ -6,24 +6,35 @@ https://packaging.python.org/guides/distributing-packages-using-setuptools/
 https://github.com/pypa/sampleproject
 """
 
-from os import path
+import io
+import re
+from os.path import dirname
+from os.path import join
+
 from setuptools import setup, find_packages
 
-here = path.abspath(path.dirname(__file__))
 
-# Get the long description from the README file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
+def read(*names, **kwargs):
+    """Read file."""
+    with io.open(join(dirname(__file__), *names),
+                 encoding=kwargs.get('encoding', 'utf8')) as fh:
+        return fh.read()
 
-# Arguments marked as "Required" below must be included for upload to PyPI.
-# Fields marked as "Optional" may be commented out.
 
 setup(
     name='tolkein',  # Required
-    version=open("src/tolkein/_version.py").readlines()[-1].split()[-1].strip("\"'"),  # Required
-    description='Tree of Life Kit of Evolutionary Informatics Niceties',  # Optional
-    long_description=long_description,  # Optional
-    long_description_content_type='text/markdown',  # Optional (see note above)
+    version='0.0.2',
+    use_scm_version={
+        # 'local_scheme': 'dirty-tag',
+        'write_to': 'src/tolkein/_version.py',
+        'fallback_version': '0.0.2',
+    },
+    description='Tree of Life Kit of Evolutionary Informatics Novelties',  # Optional
+    long_description='%s\n%s' % (
+        re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
+        re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
+    ),
+    long_description_content_type='text/x-rst',  # Optional (see note above)
     url='https://github.com/rjchallis/tolkein',  # Optional
 
     # This should be your name or the name of the organization which owns the
@@ -45,8 +56,8 @@ setup(
         'Development Status :: 3 - Alpha',
 
         # Indicate who your project is intended for
-        'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
+        'Intended Audience :: Science/Research',
+        'Topic :: Scientific/Engineering :: Bio-Informatics',
 
         # Pick your license as you wish
         'License :: OSI Approved :: MIT License',
@@ -82,6 +93,7 @@ setup(
     #
     #   py_modules=["my_module"],
     #
+    setup_requires=['setuptools_scm'],
     packages=find_packages(where='src'),  # Required
 
     # Specify which Python versions you support. In contrast to the
@@ -122,31 +134,11 @@ setup(
                  ],
     },
 
-    # If there are data files included in your packages that need to be
-    # installed, specify them here.
-    # package_data={  # Optional
-    #     'sample': ['package_data.dat'],
-    # },
-
-    # Although 'package_data' is the preferred approach, in some case you may
-    # need to place data files outside of your packages. See:
-    # http://docs.python.org/distutils/setupscript.html#installing-additional-files
-    #
-    # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    # data_files=[('my_data', ['data/data_file'])],  # Optional
-
-    # To provide executable scripts, use entry points in preference to the
-    # "scripts" keyword. Entry points provide cross-platform support and allow
-    # `pip` to create the appropriate form of executable for the target
-    # platform.
-    #
-    # For example, the following would provide a command called `sample` which
-    # executes the function `main` from this package when invoked:
-    # entry_points={  # Optional
-    #     'console_scripts': [
-    #         'sample=sample:main',
-    #     ],
-    # },
+    entry_points={
+        'console_scripts': [
+            'tolkein = tolkein:main',
+        ]
+    },
 
     project_urls={
         'Bug Reports': 'https://github.com/rjchallis/tolkein/issues',
