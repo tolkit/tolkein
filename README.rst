@@ -1,6 +1,6 @@
-==========================================
-Tree of Life Kit of Evolutionary Novelties
-==========================================
+======================================================
+Tree of Life Kit of Evolutionary Informatics Novelties
+======================================================
 
 .. start-badges
 

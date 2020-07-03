@@ -35,7 +35,7 @@ setup(
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
     ),
     long_description_content_type='text/x-rst',  # Optional (see note above)
-    url='https://github.com/rjchallis/tolkein',  # Optional
+    url='https://github.com/tolkit/tolkein',  # Optional
 
     # This should be your name or the name of the organization which owns the
     # project.
@@ -93,7 +93,6 @@ setup(
     #
     #   py_modules=["my_module"],
     #
-    setup_requires=['setuptools-scm'],
     packages=find_packages(where='src'),  # Required
 
     # Specify which Python versions you support. In contrast to the
@@ -141,7 +140,7 @@ setup(
     },
 
     project_urls={
-        'Bug Reports': 'https://github.com/rjchallis/tolkein/issues',
-        'Source': 'https://github.com/rjchallis/tolkein',
+        'Bug Reports': 'https://github.com/tolkit/tolkein/issues',
+        'Source': 'https://github.com/tolkit/tolkein',
     },
 )
