@@ -33,9 +33,9 @@ Tree of Life Kit of Evolutionary Novelties
     :alt: Supported versions
     :target: https://pypi.org/project/tolkein
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/tolkit/tolkein/v0.0.2.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/tolkit/tolkein/v0.0.3.svg
     :alt: Commits since latest release
-    :target: https://github.com/tolkit/tolkein/compare/v0.0.2...master
+    :target: https://github.com/tolkit/tolkein/compare/v0.0.3...master
 
 .. end-badges
 

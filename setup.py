@@ -27,7 +27,7 @@ setup(
     use_scm_version={
         'local_scheme': 'dirty-tag',
         'write_to': '_version.py',
-        'fallback_version': '0.0.2',
+        'fallback_version': '0.0.3',
     },
     description='Tree of Life Kit of Evolutionary Informatics Novelties',  # Optional
     long_description='%s\n%s' % (
