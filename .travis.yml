@@ -9,22 +9,14 @@ env:
     - TWINE_USERNAME=rjchallis
 matrix:
   include:
-    - python: '3.6'
+    - python: '3.8'
       env:
         - TOXENV=check
-    - python: '3.6'
+    - python: '3.8'
       env:
         - TOXENV=docs
     - env:
-        - TOXENV=py35-cover,codecov,extension-coveralls,coveralls
-      python: '3.5'
-    - env:
-        - TOXENV=py35-nocov
-        - WHEEL_MANYLINUX1=cp35
-        - WHEEL_PATH=wheelhouse
-      python: '3.5'
-    - env:
-        - TOXENV=py36-cover,codecov,extension-coveralls,coveralls
+        - TOXENV=py36-cover,extension-coveralls,coveralls
       python: '3.6'
     - env:
         - TOXENV=py36-nocov
@@ -37,7 +29,7 @@ matrix:
       env:
         - TOXENV=py37-cover
     - env:
-        - TOXENV=py37-cover,codecov,extension-coveralls,coveralls
+        - TOXENV=py37-cover,extension-coveralls,coveralls
       python: '3.7'
     - os: osx
       osx_image: xcode11
@@ -51,7 +43,7 @@ matrix:
         - WHEEL_PATH=wheelhouse
       python: '3.7'
     - env:
-        - TOXENV=py38-cover,codecov,extension-coveralls,coveralls
+        - TOXENV=py38-cover,extension-coveralls,coveralls
       python: '3.8'
     - env:
         - TOXENV=py38-nocov
@@ -59,7 +51,7 @@ matrix:
         - WHEEL_PATH=wheelhouse
       python: '3.8'
     - env:
-        - TOXENV=pypy3-cover,codecov,extension-coveralls,coveralls
+        - TOXENV=pypy3-cover,extension-coveralls,coveralls
         - TOXPYTHON=pypy3
       python: 'pypy3'
     - env:
@@ -72,7 +64,8 @@ before_install:
   - lsb_release -a || true
   - |
     if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
-      brew upgrade python
+      [[ $TOXENV =~ py3 ]] && brew upgrade python
+      [[ $TOXENV =~ py2 ]] && brew install python@2
       export PATH="/usr/local/opt/python/libexec/bin:${PATH}"
     fi
 install:
@@ -92,7 +85,7 @@ script:
       tox -v
     fi
     if [[ -n ${WHEEL_PATH:-} ]]; then
-      twine upload --repository testpypi --skip-existing $WHEEL_PATH/*.whl
+      twine upload --repository-url https://pypi.org/legacy/ --skip-existing $WHEEL_PATH/*.whl
     fi
     )
 after_failure:
