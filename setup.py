@@ -93,7 +93,7 @@ setup(
     #
     #   py_modules=["my_module"],
     #
-    setup_requires=['setuptools_scm'],
+    setup_requires=['setuptools-scm'],
     packages=find_packages(where='src'),  # Required
 
     # Specify which Python versions you support. In contrast to the
