@@ -2,7 +2,7 @@
 exclude .gitignore
 exclude .coverage
 exclude .travis.yml
-include README.md
+include *.rst
 include setup.py
 prune .cache
 prune .git

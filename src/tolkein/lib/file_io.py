@@ -19,7 +19,8 @@ import os
 import pathlib
 import sys
 from itertools import groupby
-from subprocess import PIPE, Popen
+from subprocess import PIPE
+from subprocess import Popen
 
 import ujson
 import yaml

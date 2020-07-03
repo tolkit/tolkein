@@ -2,4 +2,5 @@
 
 __version__ = '0.0.2'
 
-from .lib import file_io, misc
+from .lib import file_io
+from .lib import misc

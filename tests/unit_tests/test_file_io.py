@@ -13,16 +13,16 @@ EXAMPLE_YAML = '- record1\n- record2\n- record3\n- record4\n- record5\n'
 
 def test_read_file_that_exists():
     """Test read_file with a valid files."""
-    assert file_io.read_file('src/tolkein/tests/files/infile') == 'testfile content\n'
-    assert file_io.read_file('src/tolkein/tests/files/infile.gz') == 'testfile content\n'
+    assert file_io.read_file('tests/files/infile') == 'testfile content\n'
+    assert file_io.read_file('tests/files/infile.gz') == 'testfile content\n'
 
 
 def test_read_file_that_does_not_exist():
     """Test read_file with non-existent files."""
     assert file_io.read_file('nofile') is None
     assert file_io.read_file('nofile.gz') is None
-    assert file_io.read_file('src/tolkein/tests/files/nofile') is None
-    assert file_io.read_file('src/tolkein/tests/files/nofile.gz') is None
+    assert file_io.read_file('tests/files/nofile') is None
+    assert file_io.read_file('tests/files/nofile.gz') is None
 
 
 def test_load_yaml(mocker):

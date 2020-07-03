@@ -11,7 +11,8 @@ import re
 from os.path import dirname
 from os.path import join
 
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
 
 
 def read(*names, **kwargs):
@@ -23,10 +24,9 @@ def read(*names, **kwargs):
 
 setup(
     name='tolkein',  # Required
-    version='0.0.2',
     use_scm_version={
-        # 'local_scheme': 'dirty-tag',
-        'write_to': 'src/tolkein/_version.py',
+        'local_scheme': 'dirty-tag',
+        'write_to': '_version.py',
         'fallback_version': '0.0.2',
     },
     description='Tree of Life Kit of Evolutionary Informatics Novelties',  # Optional
@@ -39,11 +39,11 @@ setup(
 
     # This should be your name or the name of the organization which owns the
     # project.
-    author='Team301',  # Optional
+    author='TolKit',  # Optional
 
     # This should be a valid email address corresponding to the author listed
     # above.
-    # author_email='author@example.com',  # Optional
+    author_email='tolkein@genomehubs.org',  # Optional
 
     # Classifiers help users find your project by categorizing it.
     #

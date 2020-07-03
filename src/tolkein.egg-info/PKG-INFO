@@ -1,21 +1,80 @@
 Metadata-Version: 2.1
 Name: tolkein
-Version: 0.0.1
-Summary: Tree of Life Kit of Evolutionary Informatics Niceties
+Version: 0.0.3.dev0+dirty
+Summary: Tree of Life Kit of Evolutionary Informatics Novelties
 Home-page: https://github.com/rjchallis/tolkein
 Author: Team301
+Author-email: contact@genomehubs.org
 License: UNKNOWN
 Project-URL: Bug Reports, https://github.com/rjchallis/tolkein/issues
 Project-URL: Source, https://github.com/rjchallis/tolkein
-Description: [![Build Status](https://travis-ci.org/genomehubs/tolkein.svg?branch=master)](https://travis-ci.org/genomehubs/tolkein) [![Coverage Status](https://coveralls.io/repos/github/genomehubs/tolkein/badge.svg?branch=master)](https://coveralls.io/github/genomehubs/tolkein?branch=master)
+Description: ========
+        Tolkein
+        ========
         
-        # Tree of Life Kit of Evolutionary Informatics Niceties
+        
+        
+        Tree of Life Kit of Evolutionary Novelties
+        
+        * Free software: MIT License
+        
+        Installation
+        ============
+        
+        ::
+        
+            pip install tolkein
+        
+        You can also install the in-development version with::
+        
+            pip install https://github.com/genomehubs/tolkein/archive/master.zip
+        
+        
+        Documentation
+        =============
+        
+        
+        https://tolkein.readthedocs.io/
+        
+        
+        Development
+        ===========
+        
+        To run the all tests run::
+        
+            tox
+        
+        Note, to combine the coverage data from all the tox environments run:
+        
+        .. list-table::
+            :widths: 10 90
+            :stub-columns: 1
+        
+            - - Windows
+              - ::
+        
+                    set PYTEST_ADDOPTS=--cov-append
+                    tox
+        
+            - - Other
+              - ::
+        
+                    PYTEST_ADDOPTS=--cov-append tox
+        
+        
+        Changelog
+        =========
+        
+        0.0.1 (2020-07-02)
+        ------------------
+        
+        * First release on PyPI.
         
 Keywords: bioinformatics
 Platform: UNKNOWN
 Classifier: Development Status :: 3 - Alpha
-Classifier: Intended Audience :: Developers
-Classifier: Topic :: Software Development :: Build Tools
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Programming Language :: Python :: 3
 Classifier: Programming Language :: Python :: 3.6
@@ -23,6 +82,6 @@ Classifier: Programming Language :: Python :: 3.7
 Classifier: Programming Language :: Python :: 3.8
 Classifier: Programming Language :: Python :: 3 :: Only
 Requires-Python: >=3.6, <4
-Description-Content-Type: text/markdown
+Description-Content-Type: text/x-rst
 Provides-Extra: dev
 Provides-Extra: test

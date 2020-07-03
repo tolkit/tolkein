@@ -12,7 +12,7 @@ commands:
 
 from docopt import docopt
 
-from ._version import __version__
+from tolkein import __version__
 
 if __name__ == '__main__':
     docopt(__doc__,
