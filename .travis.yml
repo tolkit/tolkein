@@ -15,8 +15,14 @@ matrix:
     - python: '3.8'
       env:
         - TOXENV=docs
+    - env:
+        - TOXENV=py36-cover,extension-coveralls,coveralls
       python: '3.6'
+    - env:
+        - TOXENV=py37-cover,extension-coveralls,coveralls
       python: '3.7'
+    - env:
+        - TOXENV=py38-cover,extension-coveralls,coveralls
       python: '3.8'
 before_install:
   - python --version
