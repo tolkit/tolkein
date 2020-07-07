@@ -14,7 +14,13 @@ from docopt import docopt
 
 from tolkein import __version__
 
-if __name__ == '__main__':
+
+def main():
+    """Entry point."""
     docopt(__doc__,
            version=__version__,
            options_first=True)
+
+
+if __name__ == '__main__':
+    main()

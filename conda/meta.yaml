@@ -1,0 +1,47 @@
+{% set name = 'tolkien' %}
+{% set version = '0.0.15' %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  git_rev: v{{ version }}
+  git_url: https://github.com/tolkit/tolkein.git
+
+build:
+  number: 0
+  entry_points:
+    - tolkein = tolkein:main
+
+requirements:
+  host:
+    - docopt>=0.6.2
+    - pip
+    - python
+    - pyyaml
+    - ujson>=3.0.0
+  run:
+    - docopt>=0.6.2
+    - python
+    - pyyaml
+    - ujson>=3.0.0
+
+test:
+  imports:
+    - tolkein
+  commands:
+    - tolkein --help
+
+about:
+  home: "https://github.com/tolkit/tolkein"
+  license: MIT
+  license_family: MIT
+  license_file:
+  summary: "Tree of Life Kit of Evolutionary Informatics Novelties"
+  doc_url: https://tolkein.readthedocs.io/
+  dev_url:
+
+extra:
+  recipe-maintainers:
+    - rjchallis
