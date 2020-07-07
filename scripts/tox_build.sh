@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+DEPLOY=${1:-NOTSET}
+
 set -eux
 if [[ -n ${WHEEL_MANYLINUX1:-} ]]; then
   docker run --rm --user $UID -itv $(pwd):/code ionelmc/manylinux $WHEEL_MANYLINUX1
@@ -7,7 +9,7 @@ if [[ -n ${WHEEL_MANYLINUX1:-} ]]; then
 else
   tox -v
 fi
-if [ "$1" == "PyPI" ]; then
+if [ "$DEPLOY" == "PyPI" ]; then
   if [[ -n ${WHEEL_PATH:-} ]]; then
     twine upload --repository-url https://pypi.org/legacy/ --skip-existing $WHEEL_PATH/*.whl
   fi
