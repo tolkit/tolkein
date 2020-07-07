@@ -25,8 +25,8 @@ pydocstyle src/tolkein &&
 # pydocstyle src/tolkein/tests/unit_tests/* &&
 
 # run tests and generate coverage report
-echo "py.test --cov-config .coveragerc --doctest-modules --cov=src/tolkein --cov-report term-missing" &&
-py.test --cov-config .coveragerc --doctest-modules --cov=src/tolkein --cov-report term-missing
+echo "py.test --isort --cov-config .coveragerc --doctest-modules --cov=src/tolkein --cov-report term-missing" &&
+py.test --isort --cov-config .coveragerc --doctest-modules --cov=src/tolkein --cov-report term-missing
 
 if [ -z "$1" ]; then
   git stash pop
