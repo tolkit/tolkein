@@ -24,7 +24,7 @@ def read(*names, **kwargs):
 
 setup(
     name='tolkein',  # Required
-    version='0.0.13',
+    version='0.0.14',
     description='Tree of Life Kit of Evolutionary Informatics Novelties',  # Optional
     long_description='%s\n%s' % (
         re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
