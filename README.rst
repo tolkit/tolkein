@@ -28,9 +28,9 @@ Tolkein
     :alt: Supported versions
     :target: https://pypi.org/project/tolkein
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/tolkit/tolkein/v0.0.14.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/tolkit/tolkein/v0.0.15.svg
     :alt: Commits since latest release
-    :target: https://github.com/tolkit/tolkein/compare/v0.0.14...master
+    :target: https://github.com/tolkit/tolkein/compare/v0.0.15...master
 
 .. end-badges
 
