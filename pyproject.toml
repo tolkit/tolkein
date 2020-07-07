@@ -4,3 +4,8 @@ requires = [
     "wheel",
     "setuptools_scm[toml]>=3.4",
 ]
+
+[tool.setuptools_scm]
+fallback_version = "0.0.5"
+local_scheme = "dirty-tag"
+write_to = "_version.py"

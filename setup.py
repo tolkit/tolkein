@@ -24,11 +24,6 @@ def read(*names, **kwargs):
 
 setup(
     name='tolkein',  # Required
-    use_scm_version={
-        'local_scheme': 'dirty-tag',
-        'write_to': '_version.py',
-        'fallback_version': '0.0.5',
-    },
     description='Tree of Life Kit of Evolutionary Informatics Novelties',  # Optional
     long_description='%s\n%s' % (
         re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
@@ -120,7 +115,8 @@ setup(
     # Similar to `install_requires` above, these must be valid existing
     # projects.
     extras_require={  # Optional
-        'dev': ['pycodestyle>=2.6.0',
+        'dev': ['isort>=5.0.4',
+                'pycodestyle>=2.6.0',
                 'pydocstyle>=5.0.2',
                 'pylint>=2.5.3',
                 ],
