@@ -12,33 +12,33 @@ Further tests are implemented in a separate file using pytest
 import math
 
 
-def bin_below_readable(value, start_digits=None):
-    r"""
+def readable_bin(value, start_digits=None):
+    """
     Place values in human readable bins.
 
-    >>> bin_below_readable(123456789)
+    >>> readable_bin(123456789)
     '200M'
 
-    >>> bin_below_readable(56789012234)
+    >>> readable_bin(56789012234)
     '100G'
 
-    >>> bin_below_readable(567.89)
+    >>> readable_bin(567.89)
     '1k'
 
-    >>> bin_below_readable(21)
+    >>> readable_bin(21)
     '30'
 
-    >>> bin_below_readable(0.6, [0.15, 0.3])
+    >>> readable_bin(0.6, [0.15, 0.3])
     '1.5'
 
-    >>> bin_below_readable(-1234567)
+    >>> readable_bin(-1234567)
     '-2M'
     """
     if start_digits is None:
         start_digits = [1, 2, 3, 5, 10]
     else:
         start_digits.append(start_digits[0]*10)
-    thousands = ['', 'k', 'M', 'G']
+    thousands = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z']
     start_digits.append(10)
     # Check sign
     sign = 1

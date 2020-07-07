@@ -4,11 +4,11 @@
 import doctest
 import unittest
 
-from tolkein import misc
+from tolkein import utils
 
-suite = doctest.DocTestSuite(misc)
+suite = doctest.DocTestSuite(utils)
 
 
-def test_misc_docstrings():
-    """Test docstrings in misc module."""
+def test_utils_docstrings():
+    """Test docstrings in utils module."""
     unittest.TextTestRunner(verbosity=2).run(suite)

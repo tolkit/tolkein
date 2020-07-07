@@ -1,18 +1,13 @@
-======================================================
-Tree of Life Kit of Evolutionary Informatics Novelties
-======================================================
+======
+TolKit
+======
 
 .. start-badges
 
-.. list-table::
-    :stub-columns: 1
+|supported-versions| |travis| |coveralls|
+|docs|
+|version| |commits-since|
 
-    * - docs
-      - |docs|
-    * - tests
-      - | |travis| |coveralls|
-    * - package
-      - |version| |supported-versions| |commits-since|
 .. |docs| image:: https://readthedocs.org/projects/tolkein/badge/?style=flat
     :target: https://readthedocs.org/projects/tolkein
     :alt: Documentation Status
@@ -40,6 +35,10 @@ Tree of Life Kit of Evolutionary Informatics Novelties
 .. end-badges
 
 
+Tree of Life Kit of Evolutionary Informatics Novelties
+======================================================
+
+
 Installation
 ============
 
@@ -62,23 +61,6 @@ https://tolkein.readthedocs.io/
 Development
 ===========
 
-To run the all tests run::
+To run all tests run::
 
     tox
-
-Note, to combine the coverage data from all the tox environments run:
-
-.. list-table::
-    :widths: 10 90
-    :stub-columns: 1
-
-    - - Windows
-      - ::
-
-            set PYTEST_ADDOPTS=--cov-append
-            tox
-
-    - - Other
-      - ::
-
-            PYTEST_ADDOPTS=--cov-append tox
