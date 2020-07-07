@@ -1,11 +1,11 @@
 [build-system]
 requires = [
-    "setuptools>=42",
-    "wheel",
-    "setuptools_scm[toml]>=3.4",
+    'setuptools>=42',
+    'wheel',
+    'setuptools_scm[toml]>=3.4',
 ]
 
 [tool.setuptools_scm]
-fallback_version = "fallback_version = '"fallback_version = "0.0.10""'"
-local_scheme = "dirty-tag"
-write_to = "_version.py"
+fallback_version = '0.0.10'
+local_scheme = 'dirty-tag'
+write_to = '_version.py'
