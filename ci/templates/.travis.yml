@@ -51,12 +51,14 @@ jobs:
         - TOXENV=check
     - env:
         - TOXENV=docs
+      python: '3.8'
 {%- for env in tox_environments %}{{ '' }}
     - env:
         - TOXENV={{ env }}{% if 'cover' in env %},extension-coveralls,coveralls{% endif %}
 {%- if 'pypy' not in env and 'nocov' in env %}{{ '' }}
         - WHEEL_MANYLINUX1=cp{{ env.split('-')[0][2:] }}
         - WHEEL_PATH=wheelhouse
+      python: '3.8'
 {%- endif %}
 {%- if env.startswith('pypy3') %}{{ '' }}
         - TOXPYTHON=pypy3

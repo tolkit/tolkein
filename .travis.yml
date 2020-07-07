@@ -51,6 +51,7 @@ jobs:
         - TOXENV=check
     - env:
         - TOXENV=docs
+      python: '3.8'
     - env:
         - TOXENV=py36-cover,extension-coveralls,coveralls
       python: '3.6'
