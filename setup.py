@@ -115,8 +115,7 @@ setup(
     # Similar to `install_requires` above, these must be valid existing
     # projects.
     extras_require={  # Optional
-        'dev': ['isort>=5.0.4',
-                'pycodestyle>=2.6.0',
+        'dev': ['pycodestyle>=2.6.0',
                 'pydocstyle>=5.0.2',
                 'pylint>=2.5.3',
                 ],
@@ -124,6 +123,7 @@ setup(
                  'coveralls>=2.0.0',
                  'mock>=4.0.2',
                  'pytest-cov>=2.10.0',
+                 'pytest-isort>=1.1.0',
                  'pytest-mock>=3.1.1',
                  'pytest>=5.4.3'
                  ],
