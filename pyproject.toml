@@ -6,6 +6,6 @@ requires = [
 ]
 
 [tool.setuptools_scm]
-fallback_version = '0.0.18'
+fallback_version = '0.0.19'
 local_scheme = 'dirty-tag'
 write_to = '_version.py'
