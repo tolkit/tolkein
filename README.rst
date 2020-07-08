@@ -6,7 +6,8 @@ Tolkein
 
 |supported-versions| |travis| |coveralls|
 |docs|
-|version| |commits-since|
+|version| |conda| |platforms| |commits-since|
+|license|
 
 .. |docs| image:: https://readthedocs.org/projects/tolkein/badge/?style=flat
     :target: https://readthedocs.org/projects/tolkein
@@ -28,9 +29,21 @@ Tolkein
     :alt: Supported versions
     :target: https://pypi.org/project/tolkein
 
+.. |conda| image:: https://anaconda.org/tolkit/tolkein/badges/installer/conda.svg
+    :alt: Install with Conda
+    :target: https://anaconda.org/tolkit/tolkein
+
+.. |platforms| image:: https://anaconda.org/tolkit/tolkein/badges/platforms.svg
+    :alt: Conda platforms
+    :target: https://anaconda.org/tolkit/tolkein
+
 .. |commits-since| image:: https://img.shields.io/github/commits-since/tolkit/tolkein/v0.0.18.svg
     :alt: Commits since latest release
     :target: https://github.com/tolkit/tolkein/compare/v0.0.18...master
+
+.. |license| image:: https://anaconda.org/tolkit/tolkein/badges/license.svg
+    :alt: MIT License
+    :target: https://anaconda.org/tolkit/tolkein
 
 .. end-badges
 

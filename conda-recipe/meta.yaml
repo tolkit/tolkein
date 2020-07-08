@@ -1,4 +1,4 @@
-{% set name = 'tolkien' %}
+{% set name = 'tolkein' %}
 {% set version = '0.0.18' %}
 
 package:
@@ -12,8 +12,8 @@ source:
 build:
   number: 0
   entry_points:
-    - tolkein = tolkein:main
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+    - tolkein = tolkein:cli
+  script: "{{ PYTHON }} setup.py install --single-version-externally-managed --record=record.txt"
 
 requirements:
   host:
