@@ -12,7 +12,7 @@ commands:
 
 from docopt import docopt
 
-from tolkein import __version__
+__version__ = '0.0.16'
 
 
 def main():
@@ -20,7 +20,3 @@ def main():
     docopt(__doc__,
            version=__version__,
            options_first=True)
-
-
-if __name__ == '__main__':
-    main()

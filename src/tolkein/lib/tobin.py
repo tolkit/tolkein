@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 """
-Miscellaneous functions.
+Binning functions.
 
 Simple tests are included in docstrings and run using doctest.
 
 Further tests are implemented in a separate file using pytest
-(see tests/unit_tests/test_misc.py).
+(see tests/unit/test_tobin.py).
 """
 
 import math

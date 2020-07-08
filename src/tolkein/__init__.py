@@ -1,6 +1,5 @@
 """Evolutionary informatics package."""
 
-__version__ = '0.0.16'
-
-from .lib import file_io
-from .lib import utils
+from .lib import main
+from .lib import tofile
+from .lib import tobin

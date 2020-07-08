@@ -1,5 +1,5 @@
 {% set name = 'tolkien' %}
-{% set version = 'version = '0.0.15'' %}
+{% set version = '0.0.16' %}
 
 package:
   name: {{ name }}
@@ -13,6 +13,7 @@ build:
   number: 0
   entry_points:
     - tolkein = tolkein:main
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
 
 requirements:
   host:

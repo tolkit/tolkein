@@ -8,7 +8,7 @@ Read, write and parse files.
 Simple tests are included in docstrings and run using doctest.
 
 Further tests are implemented in a separate file using pytest
-(tests/unit_tests/test_file_io.py) to avoid adding test-specific code to
+(tests/unit/test_tofile.py) to avoid adding test-specific code to
 docstrings.
 """
 

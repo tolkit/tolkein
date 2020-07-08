@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Test functions in misc."""
+"""Test functions in tobin."""
 
 import doctest
 import unittest
 
-from tolkein import utils
+from tolkein import tobin
 
-suite = doctest.DocTestSuite(utils)
+suite = doctest.DocTestSuite(tobin)
 
 
 def test_utils_docstrings():
