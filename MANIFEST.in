@@ -10,3 +10,6 @@ prune build
 prune dist
 recursive-exclude *.egg-info *
 recursive-exclude tests *
+recursive-exclude conda *
+recursive-exclude ci *
+recursive-exclude tests *

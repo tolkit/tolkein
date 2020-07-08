@@ -132,7 +132,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'tolkein = tolkein:main',
+            'tolkein = tolkein:cli',
         ]
     },
 

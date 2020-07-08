@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """
 Tolkein.
 
@@ -12,10 +11,10 @@ commands:
 
 from docopt import docopt
 
-__version__ = '0.0.17'
+from .lib.version import __version__
 
 
-def main():
+def cli():
     """Entry point."""
     docopt(__doc__,
            version=__version__,
