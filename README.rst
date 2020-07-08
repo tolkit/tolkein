@@ -57,6 +57,10 @@ Installation
 
 ::
 
+    conda install -c tolkit tolkein
+
+or 
+
     pip install tolkein
 
 You can also install the in-development version with::
