@@ -10,7 +10,7 @@ case $(uname | tr '[:upper:]' '[:lower:]') in
     export OS_NAME=osx
     ;;
   msys*)
-    export OS_NAME=windows
+    export OS_NAME=win
     ;;
   *)
     export OS_NAME=notset
@@ -28,6 +28,9 @@ for PYTHON in 3.6 3.7 3.8; do
   fi &&
   if [ "$OS_NAME" != "osx"]; then
     conda convert --platform osx-64 $CONDA_DIR/tolkein-${VERSION}-${PYTHON}_0.tar.bz2 -o dist/conda
+  fi &&
+  if [ "$OS_NAME" != "win"]; then
+    conda convert --platform win-64 $CONDA_DIR/tolkein-${VERSION}-${PYTHON}_0.tar.bz2 -o dist/conda
   fi &&
   mkdir -p dist/conda/${OS_NAME}-64 &&
   cp $CONDA_DIR/tolkein-${VERSION}-${PYTHON}_0.tar.bz2 dist/conda/${OS_NAME}-64/ &&
