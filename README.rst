@@ -4,10 +4,15 @@ Tolkein
 
 .. start-badges
 
-|supported-versions| |travis| |coveralls|
-|docs|
-|version| |conda| |platforms| |commits-since|
+|travis| |coveralls|
+|docs| |code-style|
+|version| |conda| |commits-since|
 |license|
+
+
+.. |code-style| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
+    :alt: Code Style Black
 
 .. |docs| image:: https://readthedocs.org/projects/tolkein/badge/?style=flat
     :target: https://readthedocs.org/projects/tolkein
@@ -23,10 +28,6 @@ Tolkein
 
 .. |version| image:: https://img.shields.io/pypi/v/tolkein.svg
     :alt: PyPI Package latest release
-    :target: https://pypi.org/project/tolkein
-
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/tolkein.svg
-    :alt: Supported versions
     :target: https://pypi.org/project/tolkein
 
 .. |conda| image:: https://anaconda.org/tolkit/tolkein/badges/installer/conda.svg

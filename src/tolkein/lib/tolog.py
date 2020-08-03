@@ -21,7 +21,7 @@ def logger(name="tolkein", debug=False):
     logging.basicConfig(**config)
     _logger = logging.getLogger(name)
     _logger.propagate = False
-    _logger.handlers = []
+    # _logger.handlers = []
     _logger.setLevel(config["level"])
     stream_h = logging.StreamHandler()
     formatter = logging.Formatter(config["format"])

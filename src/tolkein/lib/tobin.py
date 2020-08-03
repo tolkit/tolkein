@@ -25,8 +25,8 @@ def readable_bin(value, start_digits=None):
     >>> readable_bin(567.89)
     '1k'
 
-    >>> readable_bin(21)
-    '30'
+    >>> readable_bin(21, [1, 2, 4, 8])
+    '40'
 
     >>> readable_bin(0.6, [0.15, 0.3])
     '1.5'
@@ -37,8 +37,8 @@ def readable_bin(value, start_digits=None):
     if start_digits is None:
         start_digits = [1, 2, 3, 5, 10]
     else:
-        start_digits.append(start_digits[0]*10)
-    thousands = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z']
+        start_digits.append(start_digits[0] * 10)
+    thousands = ["", "k", "M", "G", "T", "P", "E", "Z"]
     start_digits.append(10)
     # Check sign
     sign = 1
@@ -66,7 +66,8 @@ def readable_bin(value, start_digits=None):
     return "%d%s" % (value, thousands[mag])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Run inline tests
     import doctest
+
     doctest.testmod()

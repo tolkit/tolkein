@@ -1,11 +1,20 @@
 [build-system]
 requires = [
     'setuptools>=42',
-    'wheel',
-    'setuptools_scm[toml]>=3.4',
+    'wheel'
 ]
 
-[tool.setuptools_scm]
-fallback_version = '0.1.0'
-local_scheme = 'dirty-tag'
-write_to = '_version.py'
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.tox
+  | \.venv
+  | _build
+  | build
+  | dist
+)/
+'''
+
