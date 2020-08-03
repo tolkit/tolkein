@@ -1,0 +1,7 @@
+.tox
+__pycache__
+htmlcov
+*.egg-info
+dist
+_version.py
+build

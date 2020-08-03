@@ -16,6 +16,4 @@ from .lib.version import __version__
 
 def cli():
     """Entry point."""
-    docopt(__doc__,
-           version=__version__,
-           options_first=True)
+    docopt(__doc__, version=__version__, options_first=True)
