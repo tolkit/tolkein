@@ -7,34 +7,32 @@ import logging
 def logger_config(debug=False):
     """Configure log format."""
     if debug:
-        log_format = '%(asctime)s [%(levelname)s] line %(lineno)d %(message)s'
+        log_format = "%(asctime)s [%(levelname)s] line %(lineno)d %(message)s"
         level = logging.DEBUG
     else:
-        log_format = '%(asctime)s [%(levelname)s] %(message)s'
+        log_format = "%(asctime)s [%(levelname)s] %(message)s"
         level = logging.INFO
-    return {
-        'level': level,
-        'format': log_format,
-        'filemode': 'w'
-    }
+    return {"level": level, "format": log_format, "filemode": "w"}
 
 
-def logger(name='tolkein', debug=False):
+def logger(name="tolkein", debug=False):
     """Create logger."""
     config = logger_config(debug)
     logging.basicConfig(**config)
     _logger = logging.getLogger(name)
-    _logger.setLevel(config['level'])
+    _logger.propagate = False
+    _logger.handlers = []
+    _logger.setLevel(config["level"])
     stream_h = logging.StreamHandler()
-    formatter = logging.Formatter(config['format'])
+    formatter = logging.Formatter(config["format"])
     stream_h.setFormatter(formatter)
     _logger.addHandler(stream_h)
     for handler in _logger.handlers:
-        handler.formatter.default_msec_format = '%s.%03d'
+        handler.formatter.default_msec_format = "%s.%03d"
     return _logger
 
 
-class DisableLogger():
+class DisableLogger:
     """Logger context management."""
 
     def __enter__(self):
@@ -46,6 +44,7 @@ class DisableLogger():
         logging.disable(logging.NOTSET)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import doctest
+
     doctest.testmod()
