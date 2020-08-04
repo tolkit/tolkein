@@ -26,6 +26,7 @@ requirements:
     - docopt>=0.6.2
     - python
     - pyyaml
+    - tqdm
     - ujson>=3.0.0
 
 test:

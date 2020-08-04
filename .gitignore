@@ -5,3 +5,4 @@ htmlcov
 dist
 _version.py
 build
+.coverage

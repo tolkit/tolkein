@@ -16,4 +16,5 @@ twine>=3.2.0
 
 docopt>=0.6.2
 pyyaml
+tqdm
 ujson>=3.0.0
