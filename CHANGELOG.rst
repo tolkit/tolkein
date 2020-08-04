@@ -7,6 +7,7 @@ Changelog
 
 Features:
 * Added fetch methods
+* Switched code style to black/flake8
 
 Bug fixes:
 * Stopped log messages printing twice
