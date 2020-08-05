@@ -1,5 +1,5 @@
-{% set name = 'tolkein' %}
-{% set version = '0.1.1' %}
+{% set name = "tolkein" %}
+{% set version = "0.1.1" %}
 
 package:
   name: {{ name }}
@@ -21,13 +21,18 @@ requirements:
     - pip
     - python
     - pyyaml
+    - requests>=2.24.0
+    - tqdm>=4.48.1
     - ujson>=3.0.0
+    - xmltodict>=0.12.0
   run:
     - docopt>=0.6.2
     - python
     - pyyaml
-    - tqdm
+    - requests>=2.24.0
+    - tqdm>=4.48.1
     - ujson>=3.0.0
+    - xmltodict>=0.12.0
 
 test:
   imports:
