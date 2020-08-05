@@ -11,10 +11,10 @@ pytest-cov>=2.10.0
 pytest-isort>=1.1.0
 pytest-mock>=3.1.1
 pytest>=5.4.3
-tox>=3.18.1
-twine>=3.2.0
 
 docopt>=0.6.2
 pyyaml
-tqdm
+requests>=2.24.0
+tqdm>=4.48.1
 ujson>=3.0.0
+xmltodict>=0.12.0

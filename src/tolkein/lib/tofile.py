@@ -132,11 +132,17 @@ def write_file(filename, data, plain=False):  # pylint: disable=too-many-branche
         try:
             with gzip.open(filename, "wt") as fh:
                 fh.write(content)
+        except TypeError:
+            with open(filename, "wb") as fh:
+                fh.write(content)
         except OSError:
             return False
     else:
         try:
             with open(filename, "wt") as fh:
+                fh.write(content)
+        except TypeError:
+            with open(filename, "wb") as fh:
                 fh.write(content)
         except IOError:
             return False
