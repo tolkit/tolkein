@@ -38,9 +38,9 @@ Tolkein
     :alt: Conda platforms
     :target: https://anaconda.org/tolkit/tolkein
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/tolkit/tolkein/v0.1.1.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/tolkit/tolkein/v0.2.0.svg
     :alt: Commits since latest release
-    :target: https://github.com/tolkit/tolkein/compare/v0.1.1...master
+    :target: https://github.com/tolkit/tolkein/compare/v0.2.0...master
 
 .. |license| image:: https://anaconda.org/tolkit/tolkein/badges/license.svg
     :alt: MIT License

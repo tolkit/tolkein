@@ -25,7 +25,7 @@ def read(*names, **kwargs):
 
 setup(
     name="tolkein",  # Required
-    version="0.1.1",
+    version="0.2.0",
     description="Tree of Life Kit of Evolutionary Informatics Novelties",  # Optional
     long_description="%s\n%s"
     % (
