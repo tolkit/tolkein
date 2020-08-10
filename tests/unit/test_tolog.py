@@ -10,7 +10,7 @@ from tolkein import tolog
 
 def test_logger_config_default():
     """Test logger_config default return values."""
-    config = tolog.logger_config()
+    config = tolog._logger_config()
     assert isinstance(config, dict)
     assert "level" in config
     assert "format" in config
@@ -18,9 +18,10 @@ def test_logger_config_default():
     assert config["level"] == logging.INFO
 
 
-def test_logger_config_debug():
+def test_logger_config_debug(monkeypatch):
     """Test logger_config debug return values."""
-    config = tolog.logger_config(debug=True)
+    monkeypatch.setenv("DEBUG", "true")
+    config = tolog._logger_config()
     assert isinstance(config, dict)
     assert "level" in config
     assert "format" in config
@@ -28,23 +29,25 @@ def test_logger_config_debug():
     assert config["level"] == logging.DEBUG
 
 
-def test_logger():
+def test_logger(monkeypatch):
     """Test logger function returns valid loggers."""
     _my_logger = tolog.logger("tolkein")
     assert isinstance(_my_logger, logging.Logger)
     assert _my_logger.name == "tolkein"
     assert _my_logger.level == logging.INFO
-    _debug_logger = tolog.logger("debug", True)
+    monkeypatch.setenv("DEBUG", "true")
+    _debug_logger = tolog.logger("debug")
     assert isinstance(_debug_logger, logging.Logger)
     assert _debug_logger.name == "debug"
     assert _debug_logger.level == logging.DEBUG
 
 
-def test_logger_output(capsys):
+def test_logger_output(monkeypatch, capsys):
     """Test logger function output."""
     _my_logger = tolog.logger("tolkein")
     _my_logger.info("message 1")
-    _debug_logger = tolog.logger("debug", True)
+    monkeypatch.setenv("DEBUG", "true")
+    _debug_logger = tolog.logger("debug")
     _debug_logger.info("message 2")
     _my_logger.debug("no message 3")
     _debug_logger.debug("message 4")

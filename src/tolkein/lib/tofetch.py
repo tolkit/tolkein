@@ -6,6 +6,7 @@ import os
 import tarfile
 import urllib.request
 import zlib
+from typing import Union
 
 import requests
 from tqdm import tqdm
@@ -23,12 +24,10 @@ class TqdmUpTo(tqdm):
         """
         Tqdm update_to method.
 
-        b  : int, optional
-            Number of blocks transferred so far [default: 1].
-        bsize  : int, optional
-            Size of each block (in tqdm units) [default: 1].
-        tsize  : int, optional
-            Total size (in tqdm units). If [default: None] remains unchanged.
+        Args:
+            b (int, optional): Number of blocks transferred so far [default: 1].
+            bsize (int, optional): Size of each block (in tqdm units) [default: 1].
+            tsize (int, optional): Total size (in tqdm units).
         """
         if tsize is not None:
             self.total = tsize
@@ -36,7 +35,15 @@ class TqdmUpTo(tqdm):
 
 
 def fetch_tmp_file(url):
-    """Fetch and extract tarred archive."""
+    """
+    Fetch a remote URL to a temporary file.
+
+    Args:
+        url (str) : Remote URL to fetch.
+
+    Returns:
+        str : Temporary filename.
+    """
     with TqdmUpTo(
         unit="B",
         unit_scale=True,
@@ -52,7 +59,16 @@ def fetch_tmp_file(url):
 
 
 def extract_tar(filename, path):
-    """Extract tarred archive."""
+    """
+    Extract tarred archive.
+
+    Args:
+        filename (str) : Name of tar file to extract.
+        path (str) : Path to extract tar file.
+
+    Returns:
+        int : Count of file members extracted from tar archive.
+    """
     member_count = 0
     with tarfile.open(filename) as tar:
         member_count = len(tar.getmembers())
@@ -66,14 +82,33 @@ def extract_tar(filename, path):
 
 
 def fetch_tar(url, path):
-    """Fetch and extract tarred archive."""
+    """
+    Fetch and extract tarred archives.
+
+    Args:
+        url (str): Remote URL to fetch.
+        path (str): Path to extract tar file.
+
+    Returns:
+        int: Count of file members extracted from tar archive.
+    """
     file_tmp = fetch_tmp_file(url)
     member_count = extract_tar(file_tmp, path)
     return member_count
 
 
-def fetch_stream(url, decode=True, show_progress=True):
-    """Stream download."""
+def fetch_stream(url, *, decode=True, show_progress=True):
+    """
+    Stream download.
+
+    Args:
+        decode (bool, optional): Determines whether to unzip content. Defaults to True.
+        show_progress (bool, optional): Show a progress bar to indicate file streaming
+            progress. Defaults to True.
+
+    Yields:
+        str: 1024 byte chunk of remote URL.
+    """
     res = requests.get(url, stream=True)
     if res.encoding is None:
         res.encoding = "utf-8"
@@ -99,7 +134,13 @@ def fetch_stream(url, decode=True, show_progress=True):
 
 
 def fetch_file(url, path, decode=True):
-    """Fetch a remote file."""
+    """Fetch a remote file.
+
+    Args:
+        url (str): Remote URL to fetch.
+        path (str): Path to extract tar file.
+        decode (bool, optional): Determines whether to unzip content. Defaults to True.
+    """
     data = "" if decode else b""
     for part in fetch_stream(url, decode):
         data += part.decode("utf-8") if decode else part
@@ -107,8 +148,15 @@ def fetch_file(url, path, decode=True):
 
 
 def fetch_url(url):
-    """Fetch a URL."""
+    """Fetch a URL.
+
+    Args:
+        url (str): Remote URL to fetch.
+
+    Returns:
+        str: Content of file as a string. Will return None if response is not OK.
+    """
     res = requests.get(url)
     if res.ok:
         return res.content.decode("utf-8")
-    return False
+    return None

@@ -2,15 +2,7 @@
 
 # pylint: disable=c-extension-no-member
 
-"""
-Read, write and parse files.
-
-Simple tests are included in docstrings and run using doctest.
-
-Further tests are implemented in a separate file using pytest
-(tests/unit/test_tofile.py) to avoid adding test-specific code to
-docstrings.
-"""
+"""Read, write and parse files."""
 
 import csv
 import gzip
@@ -26,24 +18,17 @@ import ujson
 import yaml
 
 
-def read_file(filename):
+def open_file_handle(filename):
     """
-    Read a whole file into memory.
+    Open a filehandle.
 
     Automatically detect gzipped files based on suffix.
-    """
-    try:
-        with stream_file(filename) as fh:
-            return fh.read()
-    except AttributeError:
-        return None
 
+    Args:
+        filename (str): Name of file to read.
 
-def stream_file(filename):
-    """
-    Stream a file, line by line.
-
-    Automatically detect gzipped files based on suffix.
+    Returns:
+        An open filehandle. Will return None if the file cannot be opened.
     """
     if ".gz" in pathlib.Path(filename).suffixes:
         try:
@@ -56,11 +41,41 @@ def stream_file(filename):
         return None
 
 
-def stream_fasta(filename):
+def read_file(filename):
     """
-    Stream a fasta file, sequence by sequence.
+    Read a whole file into memory.
 
     Automatically detect gzipped files based on suffix.
+
+    Args:
+        filename (str): Name of file to read.
+
+    Returns:
+        str: Content of file as a string. Will return None if file cannot be read.
+    """
+    try:
+        with open_file_handle(filename) as fh:
+            return fh.read()
+    except AttributeError:
+        return None
+
+
+def stream_fasta(filename):
+    """
+    Stream a FASTA file, sequence by sequence.
+
+    Automatically detect gzipped files based on suffix.
+
+    Args:
+        filename (str): Name of FASTA file to read.
+
+    Yields:
+        A tuple of::
+
+            (
+                str: Sequence ID,
+                str: Sequence string
+            )
     """
     if ".gz" in pathlib.Path(filename).suffixes:
         cmd = ["pigz", "-dc", filename]
@@ -78,7 +93,11 @@ def load_yaml(filename):
     """
     Parse a JSON/YAML file.
 
-    load_yaml('identifiers.yaml')
+    Args:
+        filename (str): Name of JSON/YAML file to parse.
+
+    Returns:
+        Dict or list of file content.
     """
     data = read_file(filename)
     if data is None:
@@ -92,14 +111,20 @@ def load_yaml(filename):
     return content
 
 
-def write_file(filename, data, plain=False):  # pylint: disable=too-many-branches
+def write_file(filename, data, *, plain=False):
     """
     Write a file, use suffix to determine type and compression.
 
     - types: '.json', '.yaml'
     - compression: None, '.gz'
 
-    write_file('variable.json.gz')
+    Args:
+        filename (str): Name of FASTA file to read.
+        data: data to write to file.
+        plain (bool, optional): Whether to treat data as plain text. Defaults to False.
+
+    Returns:
+        bool: Whether file was written successfully.
     """
     if ".json" in filename:
         content = ujson.dumps(data, indent=1, escape_forward_slashes=False)
@@ -149,10 +174,15 @@ def write_file(filename, data, plain=False):  # pylint: disable=too-many-branche
     return True
 
 
-def delete_file(file):
-    """Delete a file if exists."""
-    if os.path.exists(file):
-        os.remove(file)
+def delete_file(filename):
+    """
+    Delete a file if exists.
+
+    Args:
+        filename (str): Name of file to delete.
+    """
+    if os.path.exists(filename):
+        os.remove(filename)
 
 
 if __name__ == "__main__":

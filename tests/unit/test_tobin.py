@@ -9,6 +9,6 @@ from tolkein import tobin
 suite = doctest.DocTestSuite(tobin)
 
 
-def test_utils_docstrings():
-    """Test docstrings in utils module."""
-    unittest.TextTestRunner(verbosity=2).run(suite)
+def test_tobin_docstrings():
+    """Test docstrings in tobin module."""
+    unittest.TextTestRunner(verbosity=3).run(suite)

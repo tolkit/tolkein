@@ -2,11 +2,12 @@
 """Log events."""
 
 import logging
+import os
 
 
-def logger_config(debug=False):
+def _logger_config():
     """Configure log format."""
-    if debug:
+    if os.environ.get("DEBUG"):
         log_format = "%(asctime)s [%(levelname)s] line %(lineno)d %(message)s"
         level = logging.DEBUG
     else:
@@ -15,9 +16,17 @@ def logger_config(debug=False):
     return {"level": level, "format": log_format, "filemode": "w"}
 
 
-def logger(name="tolkein", debug=False):
-    """Create logger."""
-    config = logger_config(debug)
+def logger(name="tolkein"):
+    """
+    Create logger.
+
+    Args:
+        name (str, optional): Logger name. Defaults to "tolkein".
+
+    Returns:
+        logging.Logger: A logger instance.
+    """
+    config = _logger_config()
     logging.basicConfig(**config)
     _logger = logging.getLogger(name)
     _logger.propagate = False
@@ -33,7 +42,23 @@ def logger(name="tolkein", debug=False):
 
 
 class DisableLogger:
-    """Logger context management."""
+    """
+    Logger context management.
+
+    .. testsetup::
+
+       from tolkein.lib.tolog import logger
+       from tolkein.lib.tolog import DisableLogger
+       my_logger = logger(__name__)
+
+    .. doctest::
+
+        >>> my_logger.info('Print log messages')
+        >>> with DisableLogger():
+        ...     my_logger.info('Disable log messages')
+        >>> my_logger.info('Print log messages again')
+
+    """
 
     def __enter__(self):
         """Set logging level to critical."""

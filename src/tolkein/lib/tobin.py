@@ -1,38 +1,39 @@
 #!/usr/bin/env python3
 
-"""
-Binning functions.
-
-Simple tests are included in docstrings and run using doctest.
-
-Further tests are implemented in a separate file using pytest
-(see tests/unit/test_tobin.py).
-"""
+"""Binning functions."""
 
 import math
 
 
-def readable_bin(value, start_digits=None):
+def readable_bin(value, *, start_digits=None):
     """
     Place values in human readable bins.
 
-    >>> readable_bin(123456789)
-    '200M'
+    Args:
+        value (float): Number to bin.
+        start_digits (list, optional): List of threshold values between 1 and 10.
+            Defaults to `[1, 2, 3, 5]`
 
-    >>> readable_bin(56789012234)
-    '100G'
+    .. testsetup::
 
-    >>> readable_bin(567.89)
-    '1k'
+       from tolkein.lib.tobin import readable_bin
 
-    >>> readable_bin(21, [1, 2, 4, 8])
-    '40'
+    .. doctest::
 
-    >>> readable_bin(0.6, [0.15, 0.3])
-    '1.5'
+        >>> readable_bin(123456789)
+        '200M'
 
-    >>> readable_bin(-1234567)
-    '-2M'
+        >>> readable_bin(56789012234)
+        '100G'
+
+        >>> readable_bin(567.89)
+        '1k'
+
+        >>> readable_bin(21, start_digits=[1, 2, 4, 8])
+        '40'
+
+        >>> readable_bin(-1234567)
+        '-2M'
     """
     if start_digits is None:
         start_digits = [1, 2, 3, 5, 10]

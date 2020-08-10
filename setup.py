@@ -129,7 +129,7 @@ setup(
             "pytest>=5.4.3",
         ],
     },
-    entry_points={"console_scripts": ["tolkein = tolkein:cli"]},
+    entry_points={"console_scripts": ["tolkein = tolkein:cli"], "tolkein.subcmd": []},
     project_urls={
         "Bug Reports": "https://github.com/tolkit/tolkein/issues",
         "Source": "https://github.com/tolkit/tolkein",

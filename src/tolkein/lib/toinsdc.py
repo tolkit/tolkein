@@ -14,9 +14,13 @@ WAREHOUSE = "https://www.ebi.ac.uk/ena/data/warehouse"
 
 def count_taxon_assembly_meta(root):
     """
-    Query INSDC assemblies descended from <root> taxon.
+    Count INSDC assemblies descended from root taxon.
 
-    Return count as int.
+    Args:
+        root (int): Root taxon taxid.
+
+    Returns:
+        int: Count of assemblies for taxa descended from root.
     """
     url = '%s/search?query="tax_tree(%s)"&result=assembly&resultcount' % (
         WAREHOUSE,
@@ -29,8 +33,18 @@ def count_taxon_assembly_meta(root):
     return 0
 
 
-def insdc_key_map(key, strict=False):
-    """Map INSDC metadata keys to normalised values."""
+def insdc_key_map(key, *, strict=False):
+    """
+    Map INSDC metadata keys to normalised values.
+
+    Args:
+        key (str): INSDC metadata key.
+        strict (bool, optional): Flag to only return values in key_map.
+            Default (False) will return lowercase version of key if no match.
+
+    Returns:
+        str: Mapped key value.
+    """
     key_map = {
         "@accession": "gca_accession",
         "@alias": "alias",
@@ -69,7 +83,7 @@ def insdc_key_map(key, strict=False):
     return mapped_key
 
 
-def add_if_exists(key, source, dest, path=None, null_value=None):
+def _add_if_exists(key, source, dest, *, path=None, null_value=None):
     """Add key to dest if exists in source."""
     dest_key = insdc_key_map(key)
     if key in source:
@@ -83,7 +97,15 @@ def add_if_exists(key, source, dest, path=None, null_value=None):
 
 
 def parse_assembly_meta(raw_meta):
-    """Assembly metadata Parser."""
+    """
+    Assembly metadata Parser.
+
+    Args:
+        raw_meta (dict): Raw dict representation of INSDC metadata.
+
+    Returns:
+        dict: Normalised dict of INSDC metadata.
+    """
     meta = {}
     keys = [
         "@accession",
@@ -95,9 +117,9 @@ def parse_assembly_meta(raw_meta):
         "TITLE",
     ]
     for key in keys:
-        add_if_exists(key, raw_meta, meta)
+        _add_if_exists(key, raw_meta, meta)
     for key in {"SAMPLE_REF", "STUDY_REF"}:
-        add_if_exists(key, raw_meta, meta, path=["IDENTIFIERS", "PRIMARY_ID"])
+        _add_if_exists(key, raw_meta, meta, path=["IDENTIFIERS", "PRIMARY_ID"])
     if "WGS_SET" in raw_meta:
         meta.update(
             {
@@ -120,11 +142,19 @@ def parse_assembly_meta(raw_meta):
     return meta
 
 
-def stream_taxon_assembly_meta(root, count=-1, offset=0, page=50):
+def stream_taxon_assembly_meta(root, *, count=-1, offset=0, page=50):
     """
-    Query INSDC assemblies descended from <root> taxon.
+    Query INSDC assemblies descended from root taxon.
 
-    Return list of <count> entries from <offset> as tree.
+    Args:
+        root (int): Root taxon taxid.
+        count (int): Number of assemblies to return.
+            Default value (-1) returns all assemblies.
+        offset (int): Offset of first assembly to return. Defaults to 0.
+        page (int): Number of assemblies to fetch per API request. Defaults to 50.
+
+    Yields:
+        dict: Normalised dict of INSDC metadata.
     """
     done = 0
     while True:
@@ -156,13 +186,3 @@ def stream_taxon_assembly_meta(root, count=-1, offset=0, page=50):
         if chunk == 0:
             break
         offset += page
-
-
-# def assembly_meta_generator(root, count=None, page=50):
-#     """Assembly metadata handler."""
-#     assemblies = []
-#     if count is None:
-#         count = count_taxon_assembly_meta(root)
-#     for assembly in stream_taxon_assembly_meta(root, count=count, page=page):
-#         assemblies.append(assembly)
-#     return assemblies

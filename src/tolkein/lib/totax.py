@@ -3,13 +3,13 @@
 
 import re
 
-from .tofile import stream_file
+from .tofile import open_file_handle
 
 
 def parse_ncbi_nodes_dmp(path):
     """Parse NCBI format nodes.dmp file."""
     nodes = {}
-    with stream_file(path) as fh:
+    with open_file_handle(path) as fh:
         for line in fh:
             taxon_id, parent, rank, *_ignore = re.split(r"\s*\|\s*", line)
             if taxon_id == "1":
@@ -20,7 +20,7 @@ def parse_ncbi_nodes_dmp(path):
 
 def parse_ncbi_names_dmp(path, nodes):
     """Parse names.dmp file and add to nodes dict."""
-    with stream_file(path) as fh:
+    with open_file_handle(path) as fh:
         for line in fh:
             taxon_id, name, unique, name_class, *_ignore = re.split(r"\s*\|\s*", line)
             if taxon_id in nodes:
