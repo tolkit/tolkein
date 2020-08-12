@@ -4,70 +4,50 @@
 import re
 
 from .tofile import open_file_handle
+from ete3 import NCBITaxa
 
 
-def parse_ncbi_nodes_dmp(path):
-    """Parse NCBI format nodes.dmp file."""
-    nodes = {}
-    with open_file_handle(path) as fh:
-        for line in fh:
-            taxon_id, parent, rank, *_ignore = re.split(r"\s*\|\s*", line)
-            if taxon_id == "1":
-                continue
-            nodes[taxon_id] = {"parent": parent, "rank": rank, "names": []}
-    return nodes
+def parse_ncbi_taxdump(path=None, root=None):
+    """Expand lineages from ete3 NCBITaxa.
 
+    Args:
+        parg (str): path to NCBI taxdump.tar.gz.
+        root (int): Root taxon taxid.
 
-def parse_ncbi_names_dmp(path, nodes):
-    """Parse names.dmp file and add to nodes dict."""
-    with open_file_handle(path) as fh:
-        for line in fh:
-            taxon_id, name, unique, name_class, *_ignore = re.split(r"\s*\|\s*", line)
-            if taxon_id in nodes:
-                if not unique:
-                    unique = name
-                if name_class == "scientific name":
-                    nodes[taxon_id].update(
-                        {
-                            "taxon_id": taxon_id,
-                            "scientific_name": name,
-                            "unique_name": unique,
-                        }
-                    )
-                nodes[taxon_id]["names"].append(
-                    {"name": name, "unique": unique, "class": name_class}
-                )
+    Returns:
+        Generator: Each call yields a descendant taxon as a tuple made up of taxon_id-<taxid>, lineage. Lineage is a list of ancestral lineage tuples with {taxon_id, rank, scientific_name}
+    """
+    ncbi = NCBITaxa(taxdump_file=path)
 
-
-def parse_ncbi_taxdump(path, root=None):
-    """Expand lineages from nodes dict."""
     if root is None:
         root = [1]
     if not isinstance(root, list):
         root = [root]
     roots = list(map(int, root))
-    nodes = parse_ncbi_nodes_dmp("%s/nodes.dmp" % path)
-    parse_ncbi_names_dmp("%s/names.dmp" % path, nodes)
-    for taxon_id, obj in nodes.items():
-        lineage = obj.copy()
-        lineage.update({"lineage": []})
-        descendant = False
-        if int(taxon_id) in roots:
-            descendant = True
-        while "parent" in obj and obj["parent"] in nodes:
-            parent = obj["parent"]
-            obj = nodes[parent]
-            lineage["lineage"].append(
-                {
-                    "taxon_id": obj["taxon_id"],
-                    "rank": obj["rank"],
-                    "scientific_name": obj["scientific_name"],
-                }
+
+    for root_taxon_id in roots:
+        descendants = ncbi.get_descendant_taxa(
+            root_taxon_id,
+            intermediate_nodes=True,
+            rank_limit=None,
+            collapse_subspecies=False,
+            return_tree=False,
+        )
+        for taxon_id in descendants:
+            lineage_nodes_list = ncbi.get_lineage(taxon_id)
+            lineage_scientific_names_list = ncbi.translate_to_names(lineage_nodes_list)
+            lineage_rank_dict = ncbi.get_rank(lineage_nodes_list)
+            lineage_scientific_names_dict = dict(
+                zip(lineage_nodes_list, lineage_scientific_names_list)
             )
-            if int(obj["taxon_id"]) in roots:
-                descendant = True
-                break
-        if descendant:
+            lineage = [
+                {
+                    "taxon_id": i,
+                    "rank": lineage_rank_dict[i],
+                    "scientific_name": lineage_scientific_names_dict[i],
+                }
+                for i in lineage_nodes_list
+            ]
             yield "taxon_id-%s" % taxon_id, lineage
 
 
