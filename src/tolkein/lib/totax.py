@@ -12,9 +12,9 @@ def parse_ncbi_nodes_dmp(path):
     with open_file_handle(path) as fh:
         for line in fh:
             taxon_id, parent, rank, *_ignore = re.split(r"\s*\|\s*", line)
-            if taxon_id == "1":
-                continue
             nodes[taxon_id] = {"parent": parent, "rank": rank, "names": []}
+        nodes["1"] = {"rank": "no rank", "names": []}
+
     return nodes
 
 
@@ -42,17 +42,17 @@ def parse_ncbi_names_dmp(path, nodes):
 def parse_ncbi_taxdump(path, root=None):
     """Expand lineages from nodes dict."""
     if root is None:
-        root = [1]
+        root = ["1"]
     if not isinstance(root, list):
         root = [root]
-    roots = list(map(int, root))
+    roots = list(map(str, root))
     nodes = parse_ncbi_nodes_dmp("%s/nodes.dmp" % path)
     parse_ncbi_names_dmp("%s/names.dmp" % path, nodes)
     for taxon_id, obj in nodes.items():
         lineage = obj.copy()
         lineage.update({"lineage": []})
         descendant = False
-        if int(taxon_id) in roots:
+        if taxon_id in roots:
             descendant = True
         while "parent" in obj and obj["parent"] in nodes:
             parent = obj["parent"]
@@ -64,7 +64,7 @@ def parse_ncbi_taxdump(path, root=None):
                     "scientific_name": obj["scientific_name"],
                 }
             )
-            if int(obj["taxon_id"]) in roots:
+            if obj["taxon_id"] in roots:
                 descendant = True
                 break
         if descendant:
