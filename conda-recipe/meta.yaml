@@ -25,6 +25,7 @@ requirements:
     - tqdm>=4.48.1
     - ujson>=3.0.0
     - xmltodict>=0.12.0
+    - ete3>=3.1.1
   run:
     - docopt>=0.6.2
     - python
@@ -33,6 +34,7 @@ requirements:
     - tqdm>=4.48.1
     - ujson>=3.0.0
     - xmltodict>=0.12.0
+    - ete3>=3.1.1
 
 test:
   imports:

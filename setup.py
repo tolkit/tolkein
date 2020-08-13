@@ -103,6 +103,7 @@ setup(
         "tqdm>=4.48.1",
         "ujson>=3.0.0",
         "xmltodict>=0.12.0",
+        "ete3>=3.1.1",
     ],  # Optional
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
