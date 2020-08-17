@@ -85,7 +85,7 @@ def fetch_wgs_assembly_meta(root, *, count=-1, offset=0, page=10000):
     return wgs_meta
 
 
-def stream_taxon_assembly_meta(root, *, count=-1, offset=0, page=10):
+def stream_taxon_assembly_meta(root, *, count=-1, offset=0, page=10000):
     """
     Query INSDC assemblies descended from root taxon.
 
