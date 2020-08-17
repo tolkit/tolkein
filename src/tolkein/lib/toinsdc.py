@@ -2,14 +2,17 @@
 """INSDC methods."""
 
 import re
+from collections import defaultdict
+from urllib.parse import urlencode
 
+import ujson
 import xmltodict
 from tqdm import tqdm
 
 from .tofetch import fetch_stream
 from .tofetch import fetch_url
 
-WAREHOUSE = "https://www.ebi.ac.uk/ena/data/warehouse"
+PORTAL = "https://www.ebi.ac.uk/ena/portal/api"
 
 
 def count_taxon_assembly_meta(root):
@@ -20,129 +23,69 @@ def count_taxon_assembly_meta(root):
         root (int): Root taxon taxid.
 
     Returns:
-        int: Count of assemblies for taxa descended from root.
+        int: Count of assemblies for taxa descended from root. Will return None on error.
     """
-    url = '%s/search?query="tax_tree(%s)"&result=assembly&resultcount' % (
-        WAREHOUSE,
+    url = '%s/count?query="tax_tree(%s)"&result=assembly&format=json' % (
+        PORTAL,
         str(root),
     )
-    body = fetch_url(url)
-    if body:
-        match = re.search(r"[\d,+]+", body)
-        return int(match.group(0).replace(",", ""))
-    return 0
+    count = fetch_url(url)
+    if count is None:
+        return None
+    return int(count)
 
 
-def insdc_key_map(key, *, strict=False):
+def fetch_wgs_assembly_meta(root, *, count=-1, offset=0, page=10000):
     """
-    Map INSDC metadata keys to normalised values.
+    Query INSDC WGS assemblies descended from root taxon.
 
     Args:
-        key (str): INSDC metadata key.
-        strict (bool, optional): Flag to only return values in key_map.
-            Default (False) will return lowercase version of key if no match.
+        root (int): Root taxon taxid.
+        count (int): Number of assemblies to return.
+            Default value (-1) returns all assemblies.
+        offset (int): Offset of first assembly to return. Defaults to 0.
+        page (int): Number of assemblies to fetch per API request. Defaults to 10000.
 
-    Returns:
-        str: Mapped key value.
+    Yields:
+        dict: A dict of INSDC WGS assembly metadata keyed on sample accession.
     """
-    key_map = {
-        "@accession": "gca_accession",
-        "@alias": "alias",
-        "@center_name": "center_name",
-        "NAME": "assembly_name",
-        "SAMPLE_REF": "biosample",
-        "STUDY_REF": "bioproject",
-        "ENA-LAST-UPDATED": "assembly_date",
-        "total-length": "assembly_span",
-        "ungapped-length": "ungapped_span",
-        "n50": "assembly_n50",
-        "spanned-gaps": "spanned_gaps",
-        "unspanned-gaps": "unspanned_gaps",
-        "scaffold-count": "scaffold_count",
-        "count-contig": "contig_count",
-        "contig-n50": "contig_n50",
-        "contig-L50": "contig_l50",
-        "contig-n75": "contig_n75",
-        "contig-n90": "contig_n90",
-        "scaf-L50": "scaffold_l50",
-        "scaf-n75": "scaffold_n75",
-        "scaf-n90": "scaffold_n90",
-        "replicon-count": "replicon_count",
-        "count-non-chromosome-replicon": "non_chr_replicon_count",
-        "count-alt-loci-units": "alt_loci_unit_count",
-        "count-regions": "region_count",
-        "count-patches": "patch_count",
+    fields = {
+        "accession": "wgs_accession",
+        "host": "host_scientific_name",
+        "first_public": "wgs_first_public",
+        "last_updated": "wgs_last_updated",
+        "location": "sample_location",
+        "study_accession": "study_accession",
+        "sample_accession": "sample_accession",
+        "sex": "sample_sex",
     }
-    try:
-        mapped_key = key_map[key]
-    except KeyError:
-        if strict:
-            return None
-        else:
-            mapped_key = key.lower()
-    return mapped_key
-
-
-def _add_if_exists(key, source, dest, *, path=None, null_value=None):
-    """Add key to dest if exists in source."""
-    dest_key = insdc_key_map(key)
-    if key in source:
-        source_value = source[key]
-        if path:
-            for sub_key in path:
-                source_value = source_value[sub_key]
-        dest.update({dest_key: source_value})
-    elif null_value is not None:
-        dest.update({dest_key: null_value})
-
-
-def parse_assembly_meta(raw_meta):
-    """
-    Assembly metadata Parser.
-
-    Args:
-        raw_meta (dict): Raw dict representation of INSDC metadata.
-
-    Returns:
-        dict: Normalised dict of INSDC metadata.
-    """
-    meta = {}
-    keys = [
-        "@accession",
-        "@alias",
-        "@center_name",
-        "ASSEMBLY_LEVEL",
-        "DESCRIPTION",
-        "NAME",
-        "TITLE",
-    ]
-    for key in keys:
-        _add_if_exists(key, raw_meta, meta)
-    for key in {"SAMPLE_REF", "STUDY_REF"}:
-        _add_if_exists(key, raw_meta, meta, path=["IDENTIFIERS", "PRIMARY_ID"])
-    if "WGS_SET" in raw_meta:
-        meta.update(
-            {
-                "wgs_id": "%s0%s"
-                % (raw_meta["WGS_SET"]["prefix"], raw_meta["WGS_SET"]["VERSION"])
+    options = {
+        "fields": ",".join(fields.keys()),
+        "format": "json",
+        "offset": offset,
+        "limit": page,
+        "query": '"tax_tree(%d)"' % int(root),
+        "result": "wgs_set",
+    }
+    returned = 0
+    wgs_meta = {}
+    while returned < count or count == -1:
+        url = "%s/search?%s" % (PORTAL, urlencode(options))
+        batch_meta = fetch_url(url)
+        if not batch_meta or batch_meta is None:
+            if not wgs_meta:
+                wgs_meta = None
+            break
+        for entry in ujson.loads(batch_meta):
+            wgs_meta[entry["sample_accession"]] = {
+                fields[key]: value for key, value in entry.items()
             }
-        )
-    try:
-        attributes = raw_meta["ASSEMBLY_ATTRIBUTES"]["ASSEMBLY_ATTRIBUTE"]
-    except KeyError:
-        attributes = []
-    for attribute in attributes:
-        key = insdc_key_map(attribute["TAG"], strict=True)
-        if key is not None:
-            if attribute["VALUE"].isdigit():
-                value = int(attribute["VALUE"])
-            else:
-                value = attribute["VALUE"]
-            meta[key] = value
-    return meta
+        returned += page
+        options["offset"] += page
+    return wgs_meta
 
 
-def stream_taxon_assembly_meta(root, *, count=-1, offset=0, page=50):
+def stream_taxon_assembly_meta(root, *, count=-1, offset=0, page=10):
     """
     Query INSDC assemblies descended from root taxon.
 
@@ -151,38 +94,50 @@ def stream_taxon_assembly_meta(root, *, count=-1, offset=0, page=50):
         count (int): Number of assemblies to return.
             Default value (-1) returns all assemblies.
         offset (int): Offset of first assembly to return. Defaults to 0.
-        page (int): Number of assemblies to fetch per API request. Defaults to 50.
+        page (int): Number of assemblies to fetch per API request. Defaults to 10000.
 
     Yields:
         dict: Normalised dict of INSDC metadata.
     """
-    done = 0
-    while True:
-        url = (
-            '%s/search?query="tax_tree(%s)"&result=assembly&display=xml&offset=%d&length=%d'
-            % (WAREHOUSE, str(root), offset, page)
-        )
-        chunk = 0
-        data = b""
-        for part in fetch_stream(url, show_progress=False):
-            data += part
-            if chunk == 0:
-                data = re.split(rb"<ROOT[^>]+>", data)[1]
-            chunk += 1
-            assemblies = data.split(b"</ASSEMBLY>")
-            if len(assemblies) > 1:
-                data = assemblies.pop()
-                for assembly in assemblies:
-                    done += 1
-                    raw_metadata = xmltodict.parse(assembly + b"</ASSEMBLY>")[
-                        "ASSEMBLY"
-                    ]
-                    yield parse_assembly_meta(raw_metadata)
-                    if count > 0 and done == count:
-                        break
-            if count > 0 and done == count:
-                chunk = 0
-                break
-        if chunk == 0:
+    fields = {
+        "accession": "gca_accession",
+        "study_accession": "study_accession",
+        "sample_accession": "sample_accession",
+        "secondary_sample_accession": "secondary_sample_accession",
+        "assembly_name": "assembly_name",
+        "assembly_title": "assembly_title",
+        "study_name": "study_name",
+        "study_title": "study_title",
+        "study_description": "study_description",
+        "tax_id": "taxon_id",
+        "scientific_name": "scientific_name",
+        "strain": "assembled_strain",
+        "base_count": "assembly_span",
+        "assembly_level": "assembly_level",
+        "genome_representation": "genome_representation",
+        "last_updated": "last_updated",
+        "version": "assembly_version",
+        "assembly_type": "assembly_type",
+    }
+    options = {
+        "fields": ",".join(fields.keys()),
+        "format": "json",
+        "offset": offset,
+        "limit": page,
+        "query": '"tax_tree(%d)"' % int(root),
+        "result": "assembly",
+    }
+    wgs_meta = fetch_wgs_assembly_meta(root)
+    returned = 0
+    while returned < count or count == -1:
+        url = "%s/search?%s" % (PORTAL, urlencode(options))
+        batch_meta = fetch_url(url)
+        if not batch_meta or batch_meta is None:
             break
-        offset += page
+        for entry in ujson.loads(batch_meta):
+            entry_meta = {fields[key]: value for key, value in entry.items()}
+            if entry_meta["sample_accession"] in wgs_meta:
+                entry_meta = {**entry_meta, **wgs_meta[entry_meta["sample_accession"]]}
+            yield entry_meta
+        returned += page
+        options["offset"] += page
