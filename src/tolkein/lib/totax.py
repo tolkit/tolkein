@@ -11,8 +11,12 @@ def parse_ncbi_nodes_dmp(path):
     nodes = {}
     with open_file_handle(path) as fh:
         for line in fh:
-            taxon_id, parent, rank, *_ignore = re.split(r"\s*\|\s*", line)
-            nodes[taxon_id] = {"parent": parent, "taxon_rank": rank, "names": []}
+            taxon_id, parent, taxon_rank, *_ignore = re.split(r"\s*\|\s*", line)
+            nodes[taxon_id] = {
+                "parent": parent,
+                "taxon_rank": taxon_rank,
+                "taxon_names": [],
+            }
         nodes["1"] = {"taxon_rank": "no rank", "taxon_names": []}
 
     return nodes
@@ -60,7 +64,7 @@ def parse_ncbi_taxdump(path, root=None):
             lineage["lineage"].append(
                 {
                     "taxon_id": obj["taxon_id"],
-                    "taxon_rank": obj["rank"],
+                    "taxon_rank": obj["taxon_rank"],
                     "scientific_name": obj["scientific_name"],
                 }
             )
