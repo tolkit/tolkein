@@ -58,7 +58,9 @@ def parse_ncbi_taxdump(path, root=None):
         descendant = False
         if taxon_id in roots:
             descendant = True
+        depth = 0
         while "parent" in obj and obj["parent"] in nodes:
+            depth += 1
             parent = obj["parent"]
             obj = nodes[parent]
             lineage["lineage"].append(
@@ -66,6 +68,7 @@ def parse_ncbi_taxdump(path, root=None):
                     "taxon_id": obj["taxon_id"],
                     "taxon_rank": obj["taxon_rank"],
                     "scientific_name": obj["scientific_name"],
+                    "node_depth": depth,
                 }
             )
             if obj["taxon_id"] in roots:
