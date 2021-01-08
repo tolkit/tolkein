@@ -5,6 +5,7 @@ from .lib import tofetch
 from .lib import tofile
 from .lib import toinsdc
 from .lib import tolog
+from .lib import tostats
 from .lib import totax
 from .lib import version
 from .tolkein import cli
