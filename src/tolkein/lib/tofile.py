@@ -60,7 +60,7 @@ def read_file(filename):
         return None
 
 
-def stream_fasta(filename):
+def stream_fasta(filename, *, windowsize=0, overlap=0):
     """
     Stream a FASTA file, sequence by sequence.
 
@@ -85,8 +85,20 @@ def stream_fasta(filename):
         faiter = (x[1] for x in groupby(proc.stdout, lambda line: line[0] == ">"))
         for header in faiter:
             seq_id = header.__next__().split()[0].replace(">", "")
-            seq_str = "".join(map(lambda s: s.strip(), faiter.__next__()))
-            yield seq_id, seq_str
+            if windowsize:
+                seq_str = ""
+                for chunk in faiter.__next__():
+                    seq_str += chunk.strip()
+                    seq_len = len(seq_str)
+                    if seq_len >= windowsize:
+                        window_str = seq_str[:windowsize]
+                        seq_str = seq_str[(windowsize - overlap) :]
+                        yield seq_id, window_str
+                if seq_str:
+                    yield seq_id, seq_str
+            else:
+                seq_str = "".join(map(lambda s: s.strip(), faiter.__next__()))
+                yield seq_id, seq_str
 
 
 def load_yaml(filename):
