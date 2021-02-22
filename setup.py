@@ -25,7 +25,7 @@ def read(*names, **kwargs):
 
 setup(
     name="tolkein",  # Required
-    version="0.2.0",
+    version="0.2.1",
     description="Tree of Life Kit of Evolutionary Informatics Novelties",  # Optional
     long_description="%s\n%s"
     % (
@@ -129,7 +129,7 @@ setup(
             "pytest>=5.4.3",
         ],
     },
-    entry_points={"console_scripts": ["tolkein = tolkein:cli"]},
+    entry_points={"console_scripts": ["tolkein = tolkein:cli"], "tolkein.subcmd": []},
     project_urls={
         "Bug Reports": "https://github.com/tolkit/tolkein/issues",
         "Source": "https://github.com/tolkit/tolkein",

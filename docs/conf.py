@@ -3,7 +3,12 @@
 """Tolkein documentation config."""
 
 import os
+import sys
 import traceback
+
+sys.path.insert(0, os.path.abspath("../src"))
+
+print(sys.path)
 
 extensions = [
     "sphinx.ext.autodoc",
@@ -29,7 +34,7 @@ try:
     version = release = get_distribution("tolkein").version
 except Exception:
     traceback.print_exc()
-    version = release = "0.2.0"
+    version = release = "0.2.1"
 
 pygments_style = "trac"
 templates_path = ["."]
@@ -51,6 +56,19 @@ html_sidebars = {
 }
 html_short_title = "%s-%s" % (project, version)
 
-napoleon_use_ivar = True
-napoleon_use_rtype = False
-napoleon_use_param = False
+# napoleon_use_ivar = True
+# napoleon_use_rtype = False
+# napoleon_use_param = False
+# Napoleon settings
+napoleon_google_docstring = True
+napoleon_numpy_docstring = True
+napoleon_include_init_with_doc = False
+napoleon_include_private_with_doc = False
+napoleon_include_special_with_doc = True
+napoleon_use_admonition_for_examples = False
+napoleon_use_admonition_for_notes = False
+napoleon_use_admonition_for_references = False
+napoleon_use_ivar = False
+napoleon_use_param = True
+napoleon_use_rtype = True
+napoleon_type_aliases = None
