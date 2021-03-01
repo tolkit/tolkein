@@ -18,11 +18,11 @@ Tolkein
     :target: https://readthedocs.org/projects/tolkein
     :alt: Documentation Status
 
-.. |travis| image:: https://api.travis-ci.org/tolkit/tolkein.svg?branch=master
+.. |travis| image:: https://api.travis-ci.org/tolkit/tolkein.svg?branch=main
     :alt: Travis-CI Build Status
     :target: https://travis-ci.org/tolkit/tolkein
 
-.. |coveralls| image:: https://coveralls.io/repos/tolkit/tolkein/badge.svg?branch=master&service=github
+.. |coveralls| image:: https://coveralls.io/repos/tolkit/tolkein/badge.svg?branch=main&service=github
     :alt: Coverage Status
     :target: https://coveralls.io/r/tolkit/tolkein
 
@@ -40,7 +40,7 @@ Tolkein
 
 .. |commits-since| image:: https://img.shields.io/github/commits-since/tolkit/tolkein/v0.2.3.svg
     :alt: Commits since latest release
-    :target: https://github.com/tolkit/tolkein/compare/v0.2.3...master
+    :target: https://github.com/tolkit/tolkein/compare/v0.2.3...main
 
 .. |license| image:: https://anaconda.org/tolkit/tolkein/badges/license.svg
     :alt: MIT License
@@ -66,7 +66,7 @@ or
 
 You can also install the in-development version with::
 
-    pip install https://github.com/tolkit/tolkein/archive/master.zip
+    pip install https://github.com/tolkit/tolkein/archive/main.zip
 
 
 Documentation
