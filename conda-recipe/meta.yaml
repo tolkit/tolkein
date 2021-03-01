@@ -37,8 +37,8 @@ requirements:
 test:
   imports:
     - tolkein
-  commands:
-    - tolkein --help
+  # commands:
+  #   - tolkein --help
 
 about:
   home: "https://github.com/tolkit/tolkein"
