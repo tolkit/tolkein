@@ -3,15 +3,20 @@
 """Fetch methods."""
 
 import os
+import shutil
 import tarfile
-import urllib.request
+import urllib.request as request
 import zlib
+from contextlib import closing
 from typing import Union
+from urllib.error import URLError
 
 import requests
 from tqdm import tqdm
 
 from .tofile import write_file
+
+url = "ftp://ftp.myurl.com"
 
 
 class TqdmUpTo(tqdm):
@@ -51,7 +56,7 @@ def fetch_tmp_file(url):
         miniters=1,
         desc="Fetch %s" % url.split("/")[-1],
     ) as t:
-        file_tmp = urllib.request.urlretrieve(
+        file_tmp = request.urlretrieve(
             url, filename=None, reporthook=t.update_to, data=None
         )[0]
         t.total = t.n
@@ -160,3 +165,13 @@ def fetch_url(url):
     if res.ok:
         return res.content.decode("utf-8")
     return None
+
+
+def fetch_ftp(url, filename):
+    """Fetch a file via ftp."""
+    try:
+        with closing(request.urlopen(url)) as req:
+            with open(filename, "wb") as fh:
+                shutil.copyfileobj(req, fh)
+    except URLError:
+        return None
