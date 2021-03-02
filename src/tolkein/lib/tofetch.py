@@ -142,7 +142,7 @@ def fetch_file(url, path, decode=True):
         decode (bool, optional): Determines whether to unzip content. Defaults to True.
     """
     data = "" if decode else b""
-    for part in fetch_stream(url, decode):
+    for part in fetch_stream(url, decode=decode):
         data += part.decode("utf-8") if decode else part
     write_file(path, data)
 
