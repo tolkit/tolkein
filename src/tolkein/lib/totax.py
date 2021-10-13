@@ -43,7 +43,18 @@ def stream_nodes(nodes, roots):
     """Add lineage info and stream taxonomy nodes."""
     for taxon_id, obj in nodes.items():
         lineage = obj.copy()
-        lineage.update({"lineage": []})
+        lineage.update(
+            {
+                "lineage": [
+                    {
+                        "taxon_id": obj["taxon_id"],
+                        "taxon_rank": obj["taxon_rank"],
+                        "scientific_name": obj["scientific_name"],
+                        "node_depth": 0,
+                    }
+                ]
+            }
+        )
         descendant = False
         if taxon_id in roots:
             descendant = True
@@ -167,7 +178,7 @@ def parse_ott_names_dmp(path, nodes):
 def parse_ott_taxdump(path, root=None):
     """Expand lineages from nodes dict."""
     if root is None:
-        root = ["805080"]
+        root = ["ott_805080"]
     if not isinstance(root, list):
         root = [root]
     roots = list(map(str, root))
