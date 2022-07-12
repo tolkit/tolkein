@@ -26,18 +26,18 @@ for PYTHON in 3.6 3.7 3.8; do
   if [ "$OS_NAME" != "linux" ]; then
     conda convert --platform linux-64 $CONDA_DIR/tolkein-${VERSION}-${PYTHON}_0.tar.bz2 -o dist/conda
   fi &&
-  if [ "$OS_NAME" != "osx" ]; then
-    conda convert --platform osx-64 $CONDA_DIR/tolkein-${VERSION}-${PYTHON}_0.tar.bz2 -o dist/conda
-  fi &&
-  if [ "$OS_NAME" != "win" ]; then
-    conda convert --platform win-64 $CONDA_DIR/tolkein-${VERSION}-${PYTHON}_0.tar.bz2 -o dist/conda
-  fi &&
-  mkdir -p dist/conda/${OS_NAME}-64 &&
-  cp $CONDA_DIR/tolkein-${VERSION}-${PYTHON}_0.tar.bz2 dist/conda/${OS_NAME}-64/ &&
-  conda create -y -c $CONDA_DIR -n test_tolkein --force tolkein &&
-  conda activate test_tolkein &&
-  tolkein -v &&
-  conda deactivate &&
+#  if [ "$OS_NAME" != "osx" ]; then
+#    conda convert --platform osx-64 $CONDA_DIR/tolkein-${VERSION}-${PYTHON}_0.tar.bz2 -o dist/conda
+#  fi &&
+#  if [ "$OS_NAME" != "win" ]; then
+#    conda convert --platform win-64 $CONDA_DIR/tolkein-${VERSION}-${PYTHON}_0.tar.bz2 -o dist/conda
+#  fi &&
+#  mkdir -p dist/conda/${OS_NAME}-64 &&
+#  cp $CONDA_DIR/tolkein-${VERSION}-${PYTHON}_0.tar.bz2 dist/conda/${OS_NAME}-64/ &&
+#  conda create -y -c $CONDA_DIR -n test_tolkein --force tolkein &&
+#  conda activate test_tolkein &&
+#  tolkein -v &&
+#  conda deactivate &&
   for FILE in dist/conda/*/*-$VERSION-${PYTHON}_0.tar.bz2; do
     anaconda -t $CONDA_TOKEN upload $FILE
   done ||

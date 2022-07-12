@@ -6,3 +6,5 @@ dist
 _version.py
 build
 .coverage
+settings.json
+.DS_Store

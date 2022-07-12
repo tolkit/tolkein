@@ -75,7 +75,7 @@ def stream_nodes(nodes, roots):
                 descendant = True
                 break
         if descendant:
-            yield "taxon_id-%s" % taxon_id, lineage
+            yield "taxon-%s" % taxon_id, lineage
 
 
 def parse_ncbi_taxdump(path, root=None):
