@@ -2,6 +2,7 @@
 # pylint: disable=all
 """Tolkein documentation config."""
 
+
 import os
 import sys
 import traceback
@@ -29,9 +30,9 @@ author = "Tolkit"
 author_email = "tolkein@genomehubs.org"
 copyright = "{0}, {1}".format(year, author)
 try:
-    from pkg_resources import get_distribution
+    from importlib.metadata import version as get_version
 
-    version = release = get_distribution("tolkein").version
+    version = release = get_version("tolkein")
 except Exception:
     traceback.print_exc()
     version = release = "0.5.0"
@@ -54,7 +55,7 @@ html_split_index = False
 html_sidebars = {
     "**": ["searchbox.html", "globaltoc.html", "sourcelink.html"],
 }
-html_short_title = "%s-%s" % (project, version)
+html_short_title = f"{project}-{version}"
 
 # napoleon_use_ivar = True
 # napoleon_use_rtype = False

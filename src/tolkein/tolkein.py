@@ -10,10 +10,10 @@ commands:
 """
 
 import sys
+from importlib.metadata import entry_points
 
 from docopt import DocoptExit
 from docopt import docopt
-from pkg_resources import working_set
 
 from .lib.tolog import logger
 from .lib.version import __version__
@@ -30,10 +30,17 @@ def cli():
             args = {"<command>": sys.argv[1]}
         if args["<command>"]:
             # load <command> from entry_points
-            for entry_point in working_set.iter_entry_points("tolkein.subcmd"):
+            eps = entry_points()
+            if hasattr(eps, "select"):
+                # Python 3.10+
+                group = eps.select(group="tolkein.subcmd")
+            else:
+                # Python 3.9
+                group = eps.get("tolkein.subcmd", [])
+            for entry_point in group:
                 if entry_point.name == args["<command>"]:
-                    subcommand = entry_point.load(sys.argv[1:])
-                    sys.exit(subcommand())
+                    subcommand = entry_point.load()
+                    sys.exit(subcommand(sys.argv[1:]))
             LOGGER.error("'tolkein %s' is not a valid command", args["<command>"])
             sys.exit(1)
     print(__doc__)
