@@ -35,7 +35,7 @@ try:
     version = release = get_version("tolkein")
 except Exception:
     traceback.print_exc()
-    version = release = "0.5.0"
+    version = release = "0.6.0"
 
 pygments_style = "trac"
 templates_path = ["."]
